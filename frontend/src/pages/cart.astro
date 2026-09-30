@@ -1,0 +1,259 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+---
+
+<Layout
+  title="Your Shopping Cart | Bloomify"
+  description="Review your selected floral arrangements and proceed to secure checkout."
+  noindex={true}
+>
+  <section style="background: var(--bg-secondary); padding: 3rem 0; border-bottom: 1px solid var(--border-light);">
+    <div class="container">
+      <SectionTitle
+        subtitle="Shopping Basket"
+        title="Your Floral Selections"
+        description="Review your items before proceeding to instant delivery checkout."
+      />
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <!-- Empty Cart Banner (Default Hidden) -->
+      <div id="cart-empty-view" class="empty-cart-state" style="display: none;">
+        <svg class="empty-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <h2 style="font-size: 1.75rem; font-family: var(--font-serif); color: var(--forest-green); margin-bottom: 0.5rem;">
+          Your Cart is Currently Empty
+        </h2>
+        <p style="color: var(--text-muted); max-width: 460px; margin: 0 auto 2rem auto;">
+          Looks like you haven't added any fresh blooms to your cart yet. Explore our handcrafted bouquets and fresh seasonal flowers!
+        </p>
+        <a href="/shop" class="btn btn-primary">
+          Explore Flowers Catalog →
+        </a>
+      </div>
+
+      <!-- Active Cart Content Grid -->
+      <div id="cart-active-view" class="cart-page-grid" style="display: none;">
+        <!-- Left Item List -->
+        <div class="cart-items-container">
+          <div class="cart-table-header">
+            <div>Product Details</div>
+            <div>Price</div>
+            <div>Quantity</div>
+            <div>Subtotal</div>
+            <div>Action</div>
+          </div>
+
+          <div id="cart-items-list">
+            <!-- Items injected dynamically by JS -->
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light);">
+            <a href="/shop" class="btn btn-outline" style="font-size: 0.85rem; padding: 0.6rem 1.2rem;">
+              ← Continue Shopping
+            </a>
+
+            <button id="clear-all-cart-btn" style="background: none; border: none; color: #D47B6A; cursor: pointer; font-size: 0.85rem; font-weight: 600;">
+              Clear All Items
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Summary Card -->
+        <div class="order-summary-card">
+          <h3 class="summary-title">Order Summary</h3>
+
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="summary-subtotal" style="font-weight: 600; color: var(--text-dark);">$0.00</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Shipping & Handling</span>
+            <span id="summary-shipping" style="font-weight: 600; color: var(--text-dark);">$9.99</span>
+          </div>
+
+          <div id="summary-discount-row" class="summary-row" style="display: none; color: #2E7D32;">
+            <span>Discount (BLOOM15)</span>
+            <span id="summary-discount">-$0.00</span>
+          </div>
+
+          <!-- Promo Code Input -->
+          <div style="margin: 1.25rem 0; padding-top: 1rem; border-top: 1px solid var(--border-light);">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--forest-green); margin-bottom: 0.5rem;">
+              Have a Promo Code?
+            </label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" id="coupon-input" placeholder="e.g. BLOOM15" class="form-input" style="padding: 0.5rem 0.8rem; font-size: 0.85rem; text-transform: uppercase;" />
+              <button id="apply-coupon-btn" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                Apply
+              </button>
+            </div>
+            <p id="coupon-msg" style="font-size: 0.75rem; margin-top: 0.4rem; display: none;"></p>
+          </div>
+
+          <div class="summary-row total-row">
+            <span>Estimated Total</span>
+            <span id="summary-total">$0.00</span>
+          </div>
+
+          <a href="/checkout" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; padding: 1rem;">
+            Proceed to Checkout →
+          </a>
+
+          <div style="margin-top: 1.25rem; text-align: center; font-size: 0.8rem; color: var(--text-muted);">
+            🔒 Guaranteed Safe & Secure Checkout
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { getCart, updateQuantity, removeFromCart, clearCart } from '../lib/cart';
+
+  let discountRate = 0;
+
+  function renderCartPage() {
+    const cart = getCart();
+    const emptyView = document.getElementById('cart-empty-view');
+    const activeView = document.getElementById('cart-active-view');
+    const itemsList = document.getElementById('cart-items-list');
+
+    if (!emptyView || !activeView || !itemsList) return;
+
+    if (cart.length === 0) {
+      emptyView.style.display = 'block';
+      activeView.style.display = 'none';
+      return;
+    }
+
+    emptyView.style.display = 'none';
+    activeView.style.display = 'grid';
+
+    // Render cart item rows
+    itemsList.innerHTML = cart
+      .map(
+        (item) => `
+      <div class="cart-item-row" data-id="${item.id}" data-color="${item.selectedColor || ''}">
+        <div class="cart-item-product">
+          <img src="${item.image}" alt="${item.name}" class="cart-item-thumb" />
+          <div class="cart-item-details">
+            <h4><a href="/products/${item.slug}">${item.name}</a></h4>
+            <p style="text-transform: capitalize;">Category: ${item.category}</p>
+            ${item.selectedColor ? `<p>Shade: ${item.selectedColor}</p>` : ''}
+          </div>
+        </div>
+        <div style="font-weight: 600; color: var(--text-dark);">$${item.price.toFixed(2)}</div>
+        <div>
+          <div class="qty-control">
+            <button class="qty-btn js-cart-minus" data-id="${item.id}" data-color="${item.selectedColor || ''}">-</button>
+            <span class="qty-val">${item.quantity}</span>
+            <button class="qty-btn js-cart-plus" data-id="${item.id}" data-color="${item.selectedColor || ''}">+</button>
+          </div>
+        </div>
+        <div style="font-weight: 700; color: var(--forest-green);">$${(item.price * item.quantity).toFixed(2)}</div>
+        <div>
+          <button class="js-cart-remove" data-id="${item.id}" data-color="${item.selectedColor || ''}" style="background: none; border: none; color: #D47B6A; cursor: pointer; font-size: 1.25rem;" title="Remove Item">✕</button>
+        </div>
+      </div>
+    `
+      )
+      .join('');
+
+    // Attach event handlers
+    itemsList.querySelectorAll('.js-cart-minus').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id')!;
+        const color = btn.getAttribute('data-color') || undefined;
+        const item = cart.find((i) => i.id === id && i.selectedColor === color);
+        if (item) updateQuantity(id, item.quantity - 1, color);
+      });
+    });
+
+    itemsList.querySelectorAll('.js-cart-plus').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id')!;
+        const color = btn.getAttribute('data-color') || undefined;
+        const item = cart.find((i) => i.id === id && i.selectedColor === color);
+        if (item) updateQuantity(id, item.quantity + 1, color);
+      });
+    });
+
+    itemsList.querySelectorAll('.js-cart-remove').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id')!;
+        const color = btn.getAttribute('data-color') || undefined;
+        removeFromCart(id, color);
+      });
+    });
+
+    // Update Summary Math
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const shipping = subtotal > 100 || subtotal === 0 ? 0 : 9.99;
+    const discount = subtotal * discountRate;
+    const total = subtotal + shipping - discount;
+
+    const subtotalEl = document.getElementById('summary-subtotal');
+    const shippingEl = document.getElementById('summary-shipping');
+    const totalEl = document.getElementById('summary-total');
+    const discountRow = document.getElementById('summary-discount-row');
+    const discountEl = document.getElementById('summary-discount');
+
+    if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (shippingEl) shippingEl.textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+
+    if (discountRate > 0 && discountRow && discountEl) {
+      discountRow.style.display = 'flex';
+      discountEl.textContent = `-$${discount.toFixed(2)}`;
+    }
+  }
+
+  // Initial load
+  renderCartPage();
+
+  // Listen for cart updates
+  window.addEventListener('cart-updated', () => renderCartPage());
+
+  // Clear all button
+  const clearBtn = document.getElementById('clear-all-cart-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to remove all items from your cart?')) {
+        clearCart();
+      }
+    });
+  }
+
+  // Coupon handling
+  const applyCouponBtn = document.getElementById('apply-coupon-btn');
+  const couponInput = document.getElementById('coupon-input') as HTMLInputElement;
+  const couponMsg = document.getElementById('coupon-msg');
+
+  if (applyCouponBtn && couponInput && couponMsg) {
+    applyCouponBtn.addEventListener('click', () => {
+      const code = couponInput.value.trim().toUpperCase();
+      if (code === 'BLOOM15') {
+        discountRate = 0.15;
+        couponMsg.style.display = 'block';
+        couponMsg.style.color = '#2E7D32';
+        couponMsg.textContent = '✓ 15% Discount Applied!';
+        renderCartPage();
+      } else {
+        discountRate = 0;
+        couponMsg.style.display = 'block';
+        couponMsg.style.color = '#D47B6A';
+        couponMsg.textContent = 'Invalid promo code. Try BLOOM15';
+        renderCartPage();
+      }
+    });
+  }
+</script>

@@ -1,0 +1,36 @@
+---
+import type { Testimonial } from '../types/flower';
+
+interface Props {
+  testimonial: Testimonial;
+}
+
+const { testimonial } = Astro.props;
+---
+
+<div style="background-color: var(--bg-card); padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+  <div>
+    <div style="color: #F4A261; font-size: 1rem; margin-bottom: 1rem;">
+      {'★'.repeat(testimonial.rating)}
+    </div>
+    <p style="font-size: 0.95rem; color: var(--text-dark); font-style: italic; line-height: 1.6; margin-bottom: 1.5rem;">
+      "{testimonial.comment}"
+    </p>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 1rem; border-top: 1px solid var(--border-light); padding-top: 1rem;">
+    <img
+      src={testimonial.avatar}
+      alt={testimonial.name}
+      style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;"
+    />
+    <div>
+      <h5 style="font-family: var(--font-sans); font-size: 0.95rem; font-weight: 700; color: var(--forest-green);">
+        {testimonial.name}
+      </h5>
+      <p style="font-size: 0.8rem; color: var(--text-muted);">
+        {testimonial.role} • {testimonial.date}
+      </p>
+    </div>
+  </div>
+</div>

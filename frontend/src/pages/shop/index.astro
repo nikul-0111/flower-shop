@@ -1,0 +1,246 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import Newsletter from '../../components/Newsletter.astro';
+
+import { getAllFlowers } from '../../lib/queries';
+
+const allFlowers = await getAllFlowers();
+
+const categoriesList = [
+  { id: 'all', name: 'All Flowers', count: allFlowers.length },
+  { id: 'roses', name: 'Ecuador Roses', count: allFlowers.filter(f => f.category === 'roses').length },
+  { id: 'bouquets', name: 'Fresh Bouquets', count: allFlowers.filter(f => f.category === 'bouquets').length },
+  { id: 'wedding', name: 'Wedding & Bridal', count: allFlowers.filter(f => f.category === 'wedding').length },
+  { id: 'birthday', name: 'Birthday Blooms', count: allFlowers.filter(f => f.category === 'birthday').length },
+  { id: 'anniversary', name: 'Anniversary Specials', count: allFlowers.filter(f => f.category === 'anniversary').length },
+  { id: 'plants', name: 'Lush Houseplants', count: allFlowers.filter(f => f.category === 'plants').length },
+];
+---
+
+<Layout title="Shop All Fresh Flowers & Bouquets | Bloomify" description="Browse our entire collection of fresh farm-direct flowers, bouquets, roses, and houseplants with same-day delivery.">
+  <!-- Shop Banner -->
+  <section style="background-color: var(--bg-secondary); padding: 3.5rem 0 2.5rem 0; border-bottom: 1px solid var(--border-light);">
+    <div class="container">
+      <SectionTitle
+        subtitle="Catalog Collection"
+        title="Artisanal Fresh Flowers & Arrangements"
+        description="Handcrafted arrangements sourced directly from sustainable flower farms worldwide."
+      />
+    </div>
+  </section>
+
+  <!-- Shop Main Content -->
+  <section class="section-padding">
+    <div class="container">
+      <!-- Search & Sorting Header Bar -->
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; background: var(--bg-card); padding: 1.25rem 1.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+        <div style="position: relative; flex: 1; max-width: 380px;">
+          <input
+            type="text"
+            id="shop-search-input"
+            placeholder="Search flowers by name, type, or color..."
+            class="form-input"
+            style="padding-left: 2.75rem;"
+          />
+          <svg style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 500;" id="results-count">
+            Showing {allFlowers.length} results
+          </span>
+
+          <select id="sort-select" class="form-input" style="width: auto; cursor: pointer;">
+            <option value="featured">Featured First</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="name-asc">Name: A to Z</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Shop Layout Grid (Sidebar + Products) -->
+      <div class="shop-layout">
+        <!-- Sidebar Filters -->
+        <aside class="filter-sidebar">
+          <div class="filter-group">
+            <h3 class="filter-title">Categories</h3>
+            <div class="filter-options">
+              {categoriesList.map((cat) => (
+                <label class="filter-label">
+                  <span>
+                    <input
+                      type="radio"
+                      name="category-filter"
+                      value={cat.id}
+                      checked={cat.id === 'all'}
+                      class="js-cat-radio"
+                    />
+                    <span style="margin-left: 0.5rem;">{cat.name}</span>
+                  </span>
+                  <span style="font-size: 0.8rem; background: var(--bg-secondary); padding: 0.15rem 0.5rem; border-radius: var(--radius-full);">{cat.count}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <h3 class="filter-title">Special Badges</h3>
+            <div class="filter-options">
+              <label class="filter-label">
+                <span>
+                  <input type="checkbox" id="filter-bestseller" />
+                  <span style="margin-left: 0.5rem;">Best Sellers Only</span>
+                </span>
+              </label>
+              <label class="filter-label">
+                <span>
+                  <input type="checkbox" id="filter-featured" />
+                  <span style="margin-left: 0.5rem;">Featured Only</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <button id="reset-filters-btn" class="btn btn-outline" style="width: 100%; font-size: 0.85rem; padding: 0.6rem;">
+            Reset All Filters
+          </button>
+        </aside>
+
+        <!-- Product Grid Area -->
+        <main>
+          <div class="product-grid" id="shop-product-grid">
+            {allFlowers.map((flower) => (
+              <ProductCard flower={flower} />
+            ))}
+          </div>
+
+          <div id="no-results-msg" style="display: none; text-align: center; padding: 4rem 2rem; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🌸</div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--forest-green);">No matching flowers found</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Try adjusting your search terms or clearing selected category filters.</p>
+            <button id="clear-search-btn" class="btn btn-primary">Clear Filters</button>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <div class="container" style="margin-bottom: 4rem;">
+    <Newsletter />
+  </div>
+</Layout>
+
+<script>
+  // Interactive Client Filter Logic
+  const searchInput = document.getElementById('shop-search-input') as HTMLInputElement;
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+  const categoryRadios = document.querySelectorAll('.js-cat-radio');
+  const bestSellerCheck = document.getElementById('filter-bestseller') as HTMLInputElement;
+  const featuredCheck = document.getElementById('filter-featured') as HTMLInputElement;
+  const resetBtn = document.getElementById('reset-filters-btn');
+  const clearSearchBtn = document.getElementById('clear-search-btn');
+  const resultsCount = document.getElementById('results-count');
+  const grid = document.getElementById('shop-product-grid');
+  const noResults = document.getElementById('no-results-msg');
+
+  // Check URL params for category filter on initial load
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialCat = urlParams.get('category');
+  if (initialCat) {
+    const radioToSelect = document.querySelector(`.js-cat-radio[value="${initialCat}"]`) as HTMLInputElement;
+    if (radioToSelect) {
+      radioToSelect.checked = true;
+    }
+  }
+
+  function applyFilters() {
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll('.product-card')) as HTMLElement[];
+    const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const selectedCatRadio = document.querySelector('.js-cat-radio:checked') as HTMLInputElement;
+    const selectedCategory = selectedCatRadio ? selectedCatRadio.value : 'all';
+    const isBestSellerOnly = bestSellerCheck ? bestSellerCheck.checked : false;
+    const isFeaturedOnly = featuredCheck ? featuredCheck.checked : false;
+    const sortValue = sortSelect ? sortSelect.value : 'featured';
+
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const textContent = card.textContent?.toLowerCase() || '';
+      const cardCategory = card.querySelector('.product-category')?.textContent?.toLowerCase() || '';
+      const isBestSeller = card.querySelector('.product-bestseller-badge') !== null;
+      const isFeatured = card.getAttribute('data-featured') === 'true';
+
+      let matches = true;
+
+      if (searchTerm && !textContent.includes(searchTerm)) {
+        matches = false;
+      }
+
+      if (selectedCategory !== 'all' && !cardCategory.includes(selectedCategory.toLowerCase())) {
+        matches = false;
+      }
+
+      if (isBestSellerOnly && !isBestSeller) {
+        matches = false;
+      }
+
+      if (isFeaturedOnly && !isFeatured) {
+        matches = false;
+      }
+
+      if (matches) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (resultsCount) {
+      resultsCount.textContent = `Showing ${visibleCount} results`;
+    }
+
+    if (noResults && grid) {
+      if (visibleCount === 0) {
+        grid.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        grid.style.display = 'grid';
+        noResults.style.display = 'none';
+      }
+    }
+  }
+
+  // Event Listeners
+  if (searchInput) searchInput.addEventListener('input', applyFilters);
+  if (sortSelect) sortSelect.addEventListener('change', applyFilters);
+  if (bestSellerCheck) bestSellerCheck.addEventListener('change', applyFilters);
+  if (featuredCheck) featuredCheck.addEventListener('change', applyFilters);
+  categoryRadios.forEach((r) => r.addEventListener('change', applyFilters));
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      if (sortSelect) sortSelect.value = 'featured';
+      if (bestSellerCheck) bestSellerCheck.checked = false;
+      if (featuredCheck) featuredCheck.checked = false;
+      const allRadio = document.querySelector('.js-cat-radio[value="all"]') as HTMLInputElement;
+      if (allRadio) allRadio.checked = true;
+      applyFilters();
+    });
+  }
+
+  if (clearSearchBtn && resetBtn) {
+    clearSearchBtn.addEventListener('click', () => resetBtn.click());
+  }
+
+  // Run filter on initial page load if URL params present
+  applyFilters();
+</script>

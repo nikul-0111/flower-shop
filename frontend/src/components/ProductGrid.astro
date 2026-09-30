@@ -1,0 +1,16 @@
+---
+import type { Flower } from '../types/flower';
+import ProductCard from './ProductCard.astro';
+
+interface Props {
+  flowers: Flower[];
+}
+
+const { flowers } = Astro.props;
+---
+
+<div class="product-grid">
+  {flowers.map((flower) => (
+    <ProductCard flower={flower} />
+  ))}
+</div>

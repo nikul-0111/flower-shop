@@ -1,0 +1,42 @@
+---
+import type { CartItem as CartItemType } from '../types/flower';
+
+interface Props {
+  item: CartItemType;
+}
+
+const { item } = Astro.props;
+---
+
+<div class="cart-item-row" data-cart-id={item.id} data-color={item.selectedColor || ''}>
+  <div class="cart-item-product">
+    <img src={item.image} alt={item.name} class="cart-item-thumb" />
+    <div class="cart-item-details">
+      <h4><a href={`/products/${item.slug}`}>{item.name}</a></h4>
+      <p>Category: <span style="text-transform: capitalize;">{item.category}</span></p>
+      {item.selectedColor && <p>Color: {item.selectedColor}</p>}
+    </div>
+  </div>
+
+  <div style="font-weight: 600; color: var(--text-dark);">
+    ${item.price.toFixed(2)}
+  </div>
+
+  <div>
+    <div class="qty-control">
+      <button class="qty-btn js-qty-minus" aria-label="Decrease quantity">-</button>
+      <span class="qty-val">{item.quantity}</span>
+      <button class="qty-btn js-qty-plus" aria-label="Increase quantity">+</button>
+    </div>
+  </div>
+
+  <div style="font-weight: 700; color: var(--forest-green);">
+    ${(item.price * item.quantity).toFixed(2)}
+  </div>
+
+  <div>
+    <button class="js-remove-cart-item" style="background: none; border: none; color: #D47B6A; cursor: pointer; font-size: 1.25rem;" title="Remove Item">
+      ✕
+    </button>
+  </div>
+</div>

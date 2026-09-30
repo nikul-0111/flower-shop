@@ -1,0 +1,90 @@
+---
+import type { Flower } from '../types/flower';
+
+interface Props {
+  flower: Flower;
+}
+
+const { flower } = Astro.props;
+
+const slugStr = typeof flower.slug === 'string' ? flower.slug : flower.slug.current;
+const discountPercent = flower.oldPrice
+  ? Math.round(((flower.oldPrice - flower.price) / flower.oldPrice) * 100)
+  : null;
+---
+
+<div class="product-card" data-flower-id={flower._id}>
+  <div class="product-image-wrap">
+    <a href={`/products/${slugStr}`}>
+      <img src={flower.image} alt={flower.name} loading="lazy" />
+    </a>
+
+    {discountPercent && (
+      <span class="product-discount-badge">-{discountPercent}%</span>
+    )}
+
+    {flower.bestSeller && (
+      <span class="product-bestseller-badge">Best Seller</span>
+    )}
+  </div>
+
+  <div class="product-content">
+    <span class="product-category">{flower.category}</span>
+    <h3 class="product-title">
+      <a href={`/products/${slugStr}`}>{flower.name}</a>
+    </h3>
+
+    <div class="product-rating">
+      <div class="stars">★★★★★</div>
+      <span>{flower.rating || 4.9} ({flower.reviewsCount || 45})</span>
+    </div>
+
+    <div class="product-footer">
+      <div class="product-price">
+        <span class="current-price">${flower.price.toFixed(2)}</span>
+        {flower.oldPrice && (
+          <span class="old-price">${flower.oldPrice.toFixed(2)}</span>
+        )}
+      </div>
+
+      <button
+        class="add-cart-btn js-add-to-cart"
+        title="Add to Cart"
+        data-flower={JSON.stringify(flower)}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { addToCart } from '../lib/cart';
+
+  document.querySelectorAll('.js-add-to-cart').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const raw = btn.getAttribute('data-flower');
+      if (raw) {
+        try {
+          const flower = JSON.parse(raw);
+          addToCart(flower, 1);
+          // Visual Feedback Animation
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '✓';
+          btn.style.backgroundColor = 'var(--forest-green)';
+          btn.style.color = '#fff';
+          setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+          }, 1200);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    });
+  });
+</script>

@@ -1,0 +1,163 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import Newsletter from '../components/Newsletter.astro';
+---
+
+<Layout
+  title="Contact Us & Floral Concierge | Bloomify"
+  description="Have questions about your flower order, custom arrangements, or wedding consultation? Reach out to Bloomify floral support."
+>
+  <!-- Contact Banner -->
+  <section style="background: var(--bg-secondary); padding: 3.5rem 0; border-bottom: 1px solid var(--border-light);">
+    <div class="container">
+      <SectionTitle
+        subtitle="Get in Touch"
+        title="We’d Love to Hear From You"
+        description="Our master florists and customer support team are available 7 days a week."
+      />
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 3.5rem;">
+        <!-- Left Contact Cards -->
+        <div>
+          <h2 style="font-size: 1.75rem; color: var(--forest-green); font-family: var(--font-serif); margin-bottom: 1.5rem;">
+            Bloomify Floral Concierge
+          </h2>
+
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div style="background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 1.5rem; display: flex; gap: 1.25rem; align-items: flex-start;">
+              <div style="font-size: 1.75rem; background: var(--sage-light); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--forest-green);">
+                📍
+              </div>
+              <div>
+                <h4 style="font-size: 1.1rem; color: var(--forest-green); margin-bottom: 0.25rem;">Flagship Floral Studio</h4>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">742 Evergreen Botanical Avenue, Suite 100<br />New York, NY 10012</p>
+              </div>
+            </div>
+
+            <div style="background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 1.5rem; display: flex; gap: 1.25rem; align-items: flex-start;">
+              <div style="font-size: 1.75rem; background: var(--sage-light); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--forest-green);">
+                📞
+              </div>
+              <div>
+                <h4 style="font-size: 1.1rem; color: var(--forest-green); margin-bottom: 0.25rem;">Phone Support</h4>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">+1 (800) 555-BLOOM (2566)<br />Mon - Sun: 8:00 AM - 8:00 PM EST</p>
+              </div>
+            </div>
+
+            <div style="background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 1.5rem; display: flex; gap: 1.25rem; align-items: flex-start;">
+              <div style="font-size: 1.75rem; background: var(--sage-light); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--forest-green);">
+                ✉️
+              </div>
+              <div>
+                <h4 style="font-size: 1.1rem; color: var(--forest-green); margin-bottom: 0.25rem;">Email Inquiry</h4>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">hello@bloomify-flowers.com<br />Weddings: events@bloomify-flowers.com</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Interactive Form -->
+        <div style="background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 2.5rem; box-shadow: var(--shadow-sm);">
+          <h3 style="font-size: 1.5rem; font-family: var(--font-serif); color: var(--forest-green); margin-bottom: 1.5rem;">
+            Send Us a Message
+          </h3>
+
+          <form id="contact-form">
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="c-name">Your Full Name *</label>
+                <input type="text" id="c-name" required placeholder="Sarah Jenkins" class="form-input" />
+              </div>
+              <div class="form-field">
+                <label for="c-email">Email Address *</label>
+                <input type="email" id="c-email" required placeholder="sarah@example.com" class="form-input" />
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="c-subject">Inquiry Subject *</label>
+              <select id="c-subject" class="form-input">
+                <option value="general">General Inquiry</option>
+                <option value="order">Existing Order Status</option>
+                <option value="wedding">Wedding & Event Floral Design</option>
+                <option value="corporate">Corporate Subscriptions</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="c-message">Your Message *</label>
+              <textarea id="c-message" rows="5" required placeholder="How can our florists assist you today?" class="form-input"></textarea>
+            </div>
+
+            <button type="submit" id="c-submit-btn" class="btn btn-primary" style="width: 100%; padding: 1rem;">
+              Send Message 🌸
+            </button>
+
+            <div id="c-success-msg" style="display: none; margin-top: 1rem; padding: 1rem; background: #E8F5E9; color: #2E7D32; border-radius: var(--radius-sm); text-align: center; font-weight: 600;">
+              ✓ Thank you! Your message has been sent. Our team will reply within 2 hours.
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div style="margin-top: 5rem;">
+        <SectionTitle
+          subtitle="Frequently Asked Questions"
+          title="Everything You Need to Know"
+          description="Find quick answers to common questions about flower delivery, care, and custom orders."
+        />
+
+        <div style="max-width: 840px; margin: 2rem auto 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+          <div style="background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 1.5rem;">
+            <h4 style="font-size: 1.1rem; color: var(--forest-green); margin-bottom: 0.5rem;">How does same-day delivery work?</h4>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Orders placed before 2:00 PM in your local timezone are eligible for same-day delivery by our climate-controlled courier team.</p>
+          </div>
+
+          <div style="background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 1.5rem;">
+            <h4 style="font-size: 1.1rem; color: var(--forest-green); margin-bottom: 0.5rem;">How long will my flowers stay fresh?</h4>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">With proper care (trimming stems, replacing water, keeping in cool light), our farm-direct blooms typically stay vibrant for 7 to 12 days.</p>
+          </div>
+
+          <div style="background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 1.5rem;">
+            <h4 style="font-size: 1.1rem; color: var(--forest-green); margin-bottom: 0.5rem;">Can I include a gift message?</h4>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Yes! Every order includes a complimentary handwritten card printed on heavy linen cardstock.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container" style="margin-bottom: 4rem;">
+    <Newsletter />
+  </div>
+</Layout>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const successMsg = document.getElementById('c-success-msg');
+  const submitBtn = document.getElementById('c-submit-btn');
+
+  if (form && successMsg && submitBtn) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      (submitBtn as HTMLButtonElement).disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      setTimeout(() => {
+        form.reset();
+        (submitBtn as HTMLButtonElement).disabled = false;
+        submitBtn.textContent = 'Send Message 🌸';
+        successMsg.style.display = 'block';
+        setTimeout(() => {
+          successMsg.style.display = 'none';
+        }, 5000);
+      }, 1000);
+    });
+  }
+</script>

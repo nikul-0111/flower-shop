@@ -1,0 +1,275 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import ProductGrid from '../components/ProductGrid.astro';
+import Newsletter from '../components/Newsletter.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import Schema from '../components/Schema.astro';
+
+import { getFeaturedFlowers, getBestSellerFlowers, getCategoryHeaderData } from '../lib/queries';
+import type { Category, Testimonial } from '../types/flower';
+
+const featuredFlowers = await getFeaturedFlowers();
+const bestSellers = await getBestSellerFlowers();
+const categoryHeader = await getCategoryHeaderData();
+
+const catSubtitle = categoryHeader?.subtitle || "Curated Collections";
+const catTitle = categoryHeader?.title || "Shop by Occasion & Floral Style";
+const catDescription = categoryHeader?.description || "Find the ideal floral expression for birthdays, anniversaries, weddings, or everyday moments of elegance.";
+
+const categories: Category[] = [
+  {
+    id: 'cat-1',
+    name: 'Fresh Bouquets',
+    slug: 'bouquets',
+    description: 'Hand-tied vibrant floral arrangements',
+    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80',
+    itemCount: 24,
+  },
+  {
+    id: 'cat-2',
+    name: 'Ecuador Roses',
+    slug: 'roses',
+    description: 'Classic velvety long-stemmed roses',
+    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=600&q=80',
+    itemCount: 18,
+  },
+  {
+    id: 'cat-3',
+    name: 'Wedding & Bridal',
+    slug: 'wedding',
+    description: 'Purity white lilies and orchids',
+    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=600&q=80',
+    itemCount: 15,
+  },
+  {
+    id: 'cat-4',
+    name: 'Birthday Blooms',
+    slug: 'birthday',
+    description: 'Cheerful bright sunflowers & spray roses',
+    image: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=600&q=80',
+    itemCount: 20,
+  },
+  {
+    id: 'cat-5',
+    name: 'Anniversary Specials',
+    slug: 'anniversary',
+    description: 'Blush pink tulips & peony mixes',
+    image: 'https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=600&q=80',
+    itemCount: 12,
+  },
+  {
+    id: 'cat-6',
+    name: 'Lush Houseplants',
+    slug: 'plants',
+    description: 'Air-purifying monsteras & potted orchids',
+    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=600&q=80',
+    itemCount: 16,
+  },
+];
+
+const testimonials: Testimonial[] = [
+  {
+    id: 'test-1',
+    name: 'Elena Rostova',
+    role: 'Verified Buyer',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
+    comment: 'The Velvet Romance Rose bouquet arrived in absolute perfection for our anniversary! The roses stayed vibrant for well over 10 days.',
+    rating: 5,
+    date: '3 days ago',
+  },
+  {
+    id: 'test-2',
+    name: 'Marcus Vance',
+    role: 'Loyal Customer',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+    comment: 'Same-day delivery saved my wife’s birthday surprise! The hand-tied kraft packaging and handwritten note were so thoughtful.',
+    rating: 5,
+    date: '1 week ago',
+  },
+  {
+    id: 'test-3',
+    name: 'Sarah Jenkins',
+    role: 'Event Designer',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80',
+    comment: 'Bloomify is my go-to floral shop for event decorations. Their orchids and peonies are always top tier grade.',
+    rating: 5,
+    date: '2 weeks ago',
+  },
+];
+
+const homeSchema = {
+  "@context": "https://schema.org",
+  "@type": "Florist",
+  "name": "Bloomify Flower Shop",
+  "image": "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=80",
+  "url": "https://bloomify-flowers.com",
+  "telephone": "+1-800-555-0199",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "124 Botanical Garden Way",
+    "addressLocality": "Floral Park",
+    "addressRegion": "NY",
+    "postalCode": "11001",
+    "addressCountry": "US"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "08:00",
+    "closes": "20:00"
+  }
+};
+---
+
+<Layout title="Bloomify | Artisanal Flower Shop & Fresh Floral Delivery">
+  <Schema item={homeSchema} />
+  <!-- Hero Banner -->
+
+  <Hero />
+
+  <!-- Shop by Category Section -->
+  <section class="section-padding" style="background-color: var(--bg-primary);">
+    <div class="container">
+      <SectionTitle
+        subtitle={catSubtitle}
+        title={catTitle}
+        description={catDescription}
+      />
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+        {categories.map((cat) => (
+          <CategoryCard
+            name={cat.name}
+            slug={cat.slug}
+            image={cat.image}
+            itemCount={cat.itemCount}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Flowers Section -->
+  <section class="section-padding" style="background-color: #F4EFEA;">
+    <div class="container">
+      <SectionTitle
+        subtitle="Handpicked Favorites"
+        title="Featured Seasonal Blooms"
+        description="Freshly harvested from our floral farms and arranged by master florists."
+      />
+
+      <ProductGrid flowers={featuredFlowers} />
+
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="/shop" class="btn btn-primary">
+          View All Products →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promotional Floral Banner -->
+  <section style="margin: 4rem 0;">
+    <div class="container">
+      <div style="background: linear-gradient(135deg, #1B3B2B 0%, #2D5A42 100%); color: #FFF; border-radius: var(--radius-lg); padding: 3.5rem 3rem; display: grid; grid-template-columns: 1.2fr 0.8fr; align-items: center; gap: 2.5rem; box-shadow: var(--shadow-lg);">
+        <div>
+          <span class="badge badge-rose" style="margin-bottom: 1rem; background-color: rgba(232, 165, 152, 0.25); color: #FFC0B5;">
+            ✨ Limited Seasonal Edition
+          </span>
+          <h2 style="color: #FFF; font-size: 2.5rem; margin-bottom: 1rem;">
+            Order Luxury Peonies & Hydrangeas Today
+          </h2>
+          <p style="font-size: 1.05rem; opacity: 0.9; margin-bottom: 2rem;">
+            Get a complimentary luxury ceramic vase and floral nutrition pack with every bouquet over $75.
+          </p>
+          <a href="/shop" class="btn btn-secondary">
+            Claim Offer Now
+          </a>
+        </div>
+        <div style="position: relative;">
+          <img
+            src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=700&q=80"
+            alt="Pastel Peonies"
+            style="border-radius: var(--radius-md); box-shadow: var(--shadow-lg); width: 100%; height: 320px; object-fit: cover;"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Best Sellers Section -->
+  <section class="section-padding">
+    <div class="container">
+      <SectionTitle
+        subtitle="Customer Most Loved"
+        title="Best Selling Arrangements"
+        description="Discover the most popular choices loved by thousands of flower lovers across the country."
+      />
+
+      <ProductGrid flowers={bestSellers} />
+    </div>
+  </section>
+
+  <!-- Why Choose Us Features Grid -->
+  <section class="section-padding" style="background-color: var(--bg-secondary);">
+    <div class="container">
+      <SectionTitle
+        subtitle="The Bloomify Promise"
+        title="Why Floral Enthusiasts Choose Us"
+        description="We take pride in setting the standard for freshness, artistic arrangement, and reliable customer delight."
+      />
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🌹</div>
+          <h3 style="font-size: 1.25rem; font-family: var(--font-serif); margin-bottom: 0.5rem; color: var(--forest-green);">Farm-Direct Sourcing</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Sourced directly from eco-friendly sustainable farms for maximum vase life.</p>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🚚</div>
+          <h3 style="font-size: 1.25rem; font-family: var(--font-serif); margin-bottom: 0.5rem; color: var(--forest-green);">Climate-Controlled Delivery</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Temperature regulated transport ensures zero wilt during journey.</p>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎀</div>
+          <h3 style="font-size: 1.25rem; font-family: var(--font-serif); margin-bottom: 0.5rem; color: var(--forest-green);">Artisan Gift Wrapping</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Wrapped in signature eco kraft paper with silk satin ribbons & handwritten notes.</p>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">💚</div>
+          <h3 style="font-size: 1.25rem; font-family: var(--font-serif); margin-bottom: 0.5rem; color: var(--forest-green);">100% Happiness Guarantee</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">If your blooms don't last at least 7 days, we replace them free of charge.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Reviews / Testimonials -->
+  <section class="section-padding">
+    <div class="container">
+      <SectionTitle
+        subtitle="Real Stories"
+        title="Words from Our Happy Customers"
+        description="See why our customers love sending and receiving Bloomify floral creations."
+      />
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        {testimonials.map((t) => (
+          <TestimonialCard testimonial={t} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <div class="container">
+    <Newsletter />
+  </div>
+</Layout>

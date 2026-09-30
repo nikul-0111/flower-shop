@@ -1,0 +1,289 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+---
+
+<Layout
+  title="Checkout & Delivery Details | Bloomify"
+  description="Complete your order details for fast, fresh flower delivery."
+  noindex={true}
+>
+  <section style="background: var(--bg-secondary); padding: 2.5rem 0; border-bottom: 1px solid var(--border-light);">
+    <div class="container">
+      <SectionTitle
+        subtitle="Final Step"
+        title="Secure Checkout & Flower Delivery"
+        description="Enter recipient details and select your preferred payment option."
+      />
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <form id="checkout-form" class="checkout-grid">
+        <!-- Left: Customer & Delivery Details Form -->
+        <div class="checkout-form-box">
+          <!-- 1. Contact Information -->
+          <div style="margin-bottom: 2.5rem;">
+            <h3 class="form-section-title">
+              <span>1. Contact Information</span>
+            </h3>
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" required placeholder="john@example.com" class="form-input" />
+              </div>
+              <div class="form-field">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" required placeholder="+1 (555) 000-0000" class="form-input" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Shipping & Delivery Address -->
+          <div style="margin-bottom: 2.5rem;">
+            <h3 class="form-section-title">
+              <span>2. Delivery Address</span>
+            </h3>
+            <div class="form-field">
+              <label for="fullName">Recipient Full Name *</label>
+              <input type="text" id="fullName" required placeholder="Jane Doe" class="form-input" />
+            </div>
+            <div class="form-field">
+              <label for="address">Street Address *</label>
+              <input type="text" id="address" required placeholder="123 Floral Garden Way, Suite 4B" class="form-input" />
+            </div>
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="city">City *</label>
+                <input type="text" id="city" required placeholder="New York" class="form-input" />
+              </div>
+              <div class="form-field">
+                <label for="postalCode">ZIP / Postal Code *</label>
+                <input type="text" id="postalCode" required placeholder="10001" class="form-input" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Delivery Date & Gift Message -->
+          <div style="margin-bottom: 2.5rem;">
+            <h3 class="form-section-title">
+              <span>3. Delivery Schedule & Gift Card</span>
+            </h3>
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="deliveryDate">Preferred Delivery Date *</label>
+                <input type="date" id="deliveryDate" required class="form-input" />
+              </div>
+              <div class="form-field">
+                <label for="deliveryTime">Delivery Slot</label>
+                <select id="deliveryTime" class="form-input">
+                  <option value="morning">Morning (8:00 AM - 12:00 PM)</option>
+                  <option value="afternoon" selected>Afternoon (12:00 PM - 5:00 PM)</option>
+                  <option value="evening">Evening (5:00 PM - 8:00 PM)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="giftMessage">Complimentary Handwritten Gift Message</label>
+              <textarea id="giftMessage" rows="3" placeholder="Write your heartfelt note here... (Max 250 chars)" class="form-input"></textarea>
+            </div>
+          </div>
+
+          <!-- 4. Payment Method -->
+          <div>
+            <h3 class="form-section-title">
+              <span>4. Payment Method</span>
+            </h3>
+            <div class="payment-options">
+              <label class="payment-option-card active js-payment-card">
+                <input type="radio" name="payment" value="credit-card" checked style="accent-color: var(--forest-green);" />
+                <div style="flex: 1;">
+                  <div style="font-weight: 700; color: var(--forest-green);">Credit / Debit Card</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Visa, MasterCard, American Express</div>
+                </div>
+                <span>💳</span>
+              </label>
+
+              <label class="payment-option-card js-payment-card">
+                <input type="radio" name="payment" value="paypal" style="accent-color: var(--forest-green);" />
+                <div style="flex: 1;">
+                  <div style="font-weight: 700; color: var(--forest-green);">PayPal</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Fast, 1-Click checkout</div>
+                </div>
+                <span>🅿️</span>
+              </label>
+
+              <label class="payment-option-card js-payment-card">
+                <input type="radio" name="payment" value="cod" style="accent-color: var(--forest-green);" />
+                <div style="flex: 1;">
+                  <div style="font-weight: 700; color: var(--forest-green);">Cash on Delivery</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Pay upon hand delivery</div>
+                </div>
+                <span>💵</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Order Summary Sidebar -->
+        <div class="order-summary-card">
+          <h3 class="summary-title">Order Summary</h3>
+
+          <div id="checkout-items-list" style="margin-bottom: 1.5rem; max-height: 300px; overflow-y: auto;">
+            <!-- Items populated via JS -->
+          </div>
+
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="checkout-subtotal" style="font-weight: 600; color: var(--text-dark);">$0.00</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Delivery Fee</span>
+            <span id="checkout-shipping" style="font-weight: 600; color: var(--text-dark);">$9.99</span>
+          </div>
+
+          <div class="summary-row total-row">
+            <span>Total Payable</span>
+            <span id="checkout-total">$0.00</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.75rem; padding: 1.1rem;">
+            Place Floral Order Now 🌸
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Success Confirmation Modal Overlay -->
+  <div id="order-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="success-icon-badge">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+
+      <h2 style="font-size: 2rem; font-family: var(--font-serif); color: var(--forest-green); margin-bottom: 0.5rem;">
+        Order Placed Successfully!
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+        Thank you for choosing Bloomify! Your floral arrangement is being prepared with love by our master florists.
+      </p>
+
+      <div style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: 1.25rem; text-align: left; margin-bottom: 2rem; font-size: 0.9rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="color: var(--text-muted);">Order Reference ID:</span>
+          <span id="modal-order-id" style="font-weight: 700; color: var(--forest-green);">#BLOOM-0000</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="color: var(--text-muted);">Estimated Delivery:</span>
+          <span id="modal-delivery-date" style="font-weight: 600;">Tomorrow</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: var(--text-muted);">Total Paid:</span>
+          <span id="modal-total-paid" style="font-weight: 700; color: var(--forest-green);">$0.00</span>
+        </div>
+      </div>
+
+      <a href="/" class="btn btn-primary" style="width: 100%;">
+        Return to Home Page
+      </a>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { getCart, clearCart } from '../lib/cart';
+
+  // Set default delivery date to tomorrow
+  const deliveryDateInput = document.getElementById('deliveryDate') as HTMLInputElement;
+  if (deliveryDateInput) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    deliveryDateInput.value = tomorrow.toISOString().split('T')[0];
+    deliveryDateInput.min = new Date().toISOString().split('T')[0];
+  }
+
+  // Populate Order Summary
+  function renderCheckoutSummary() {
+    const cart = getCart();
+    if (cart.length === 0 && !window.location.search.includes('success')) {
+      window.location.href = '/cart';
+      return;
+    }
+
+    const itemsList = document.getElementById('checkout-items-list');
+    const subtotalEl = document.getElementById('checkout-subtotal');
+    const shippingEl = document.getElementById('checkout-shipping');
+    const totalEl = document.getElementById('checkout-total');
+
+    if (itemsList) {
+      itemsList.innerHTML = cart
+        .map(
+          (item) => `
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="${item.image}" alt="${item.name}" style="width: 44px; height: 44px; border-radius: 6px; object-fit: cover;" />
+            <div>
+              <div style="font-size: 0.85rem; font-weight: 600; color: var(--forest-green);">${item.name}</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Qty: ${item.quantity} ${item.selectedColor ? `(${item.selectedColor})` : ''}</div>
+            </div>
+          </div>
+          <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-dark);">$${(item.price * item.quantity).toFixed(2)}</div>
+        </div>
+      `
+        )
+        .join('');
+    }
+
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const shipping = subtotal > 100 || subtotal === 0 ? 0 : 9.99;
+    const total = subtotal + shipping;
+
+    if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (shippingEl) shippingEl.textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
+  }
+
+  renderCheckoutSummary();
+
+  // Payment radio option styling
+  const paymentCards = document.querySelectorAll('.js-payment-card');
+  paymentCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      paymentCards.forEach((c) => c.classList.remove('active'));
+      card.classList.add('active');
+    });
+  });
+
+  // Handle Order Submit
+  const checkoutForm = document.getElementById('checkout-form');
+  const modal = document.getElementById('order-modal');
+
+  if (checkoutForm && modal) {
+    checkoutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const cart = getCart();
+      const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      const shipping = subtotal > 100 || subtotal === 0 ? 0 : 9.99;
+      const total = subtotal + shipping;
+
+      const orderId = '#BLOOM-' + Math.floor(100000 + Math.random() * 900000);
+      const deliveryDate = (document.getElementById('deliveryDate') as HTMLInputElement).value;
+
+      document.getElementById('modal-order-id')!.textContent = orderId;
+      document.getElementById('modal-delivery-date')!.textContent = deliveryDate;
+      document.getElementById('modal-total-paid')!.textContent = `$${total.toFixed(2)}`;
+
+      // Clear Cart
+      clearCart();
+
+      // Show Modal
+      modal.classList.add('open');
+    });
+  }
+</script>

@@ -1,0 +1,375 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import Schema from '../../components/Schema.astro';
+
+import { getAllFlowers, getFlowerBySlug, getFlowersByCategory } from '../../lib/queries';
+
+export async function getStaticPaths() {
+  const flowers = await getAllFlowers();
+  return flowers.map((flower) => {
+    const slugStr = typeof flower.slug === 'string' ? flower.slug : flower.slug.current;
+    return {
+      params: { slug: slugStr },
+    };
+  });
+}
+
+const { slug } = Astro.params;
+const flower = await getFlowerBySlug(slug as string);
+
+if (!flower) {
+  return Astro.redirect('/404');
+}
+
+const relatedFlowers = (await getFlowersByCategory(flower.category))
+  .filter((f) => (typeof f.slug === 'string' ? f.slug : f.slug.current) !== slug)
+  .slice(0, 4);
+
+const discountPercent = flower.oldPrice
+  ? Math.round(((flower.oldPrice - flower.price) / flower.oldPrice) * 100)
+  : null;
+
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": flower.name,
+  "image": [flower.image],
+  "description": flower.description,
+  "sku": flower.id || slug,
+  "brand": {
+    "@type": "Brand",
+    "name": "Bloomify"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": `https://bloomify-flowers.com/products/${slug}`,
+    "priceCurrency": "USD",
+    "price": flower.price.toFixed(2),
+    "priceValidUntil": "2026-12-31",
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": flower.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": (flower.rating || 4.9).toString(),
+    "reviewCount": (flower.reviewsCount || 85).toString()
+  }
+};
+---
+
+<Layout
+  title={`${flower.name} | Bloomify Flower Shop`}
+  description={flower.description}
+  image={flower.image}
+  type="product"
+>
+  <Schema item={productSchema} />
+
+  <!-- Breadcrumb Navigation -->
+  <div style="background: var(--bg-secondary); padding: 1rem 0; border-bottom: 1px solid var(--border-light);">
+    <div class="container">
+      <nav style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem;">
+        <a href="/" style="hover: color var(--forest-green);">Home</a>
+        <span>/</span>
+        <a href="/shop">Shop</a>
+        <span>/</span>
+        <a href={`/categories/${flower.category}`} style="text-transform: capitalize;">{flower.category}</a>
+        <span>/</span>
+        <span style="color: var(--forest-green); font-weight: 600;">{flower.name}</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Product Detail Section -->
+  <section class="section-padding">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 3.5rem; align-items: start;">
+        <!-- Left Image Showcase -->
+        <div>
+          <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-card); border: 1px solid var(--border-light); box-shadow: var(--shadow-md); height: 480px;">
+            <img
+              id="main-product-img"
+              src={flower.image}
+              alt={flower.name}
+              loading="eager"
+              fetchpriority="high"
+              width="600"
+              height="480"
+              style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
+            />
+
+
+            {discountPercent && (
+              <span class="product-discount-badge" style="font-size: 0.85rem; padding: 0.35rem 0.85rem;">
+                Save {discountPercent}%
+              </span>
+            )}
+            {flower.bestSeller && (
+              <span class="product-bestseller-badge" style="font-size: 0.85rem; padding: 0.35rem 0.85rem;">
+                Best Seller
+              </span>
+            )}
+          </div>
+        </div>
+
+        <!-- Right Detail Info -->
+        <div>
+          <span class="badge badge-sage" style="margin-bottom: 0.75rem; text-transform: uppercase;">
+            {flower.category} Collection
+          </span>
+
+          <h1 style="font-size: 2.25rem; font-family: var(--font-serif); color: var(--forest-green); margin-bottom: 0.75rem; line-height: 1.2;">
+            {flower.name}
+          </h1>
+
+          <!-- Rating & Stock Badge -->
+          <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.3rem; color: #F4A261; font-weight: 600; font-size: 0.95rem;">
+              <span>★★★★★</span>
+              <span style="color: var(--text-dark); margin-left: 0.25rem;">{flower.rating || 4.9}</span>
+              <span style="color: var(--text-muted); font-weight: 400;">({flower.reviewsCount || 85} customer reviews)</span>
+            </div>
+
+            <span style="color: #2E7D32; background: #E8F5E9; padding: 0.2rem 0.6rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700;">
+              ✓ In Stock ({flower.stock} available)
+            </span>
+          </div>
+
+          <!-- Price Header -->
+          <div style="display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-light);">
+            <span style="font-size: 2.25rem; font-weight: 800; color: var(--forest-green);">
+              ${flower.price.toFixed(2)}
+            </span>
+            {flower.oldPrice && (
+              <span style="font-size: 1.25rem; color: var(--text-light); text-decoration: line-through;">
+                ${flower.oldPrice.toFixed(2)}
+              </span>
+            )}
+            <span style="font-size: 0.85rem; color: var(--sage-accent); background: var(--sage-light); padding: 0.25rem 0.6rem; border-radius: var(--radius-sm); font-weight: 600;">
+              Taxes Included
+            </span>
+          </div>
+
+          <!-- Description Short -->
+          <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 1.75rem; line-height: 1.6;">
+            {flower.description}
+          </p>
+
+          <!-- Color Selector (If Colors Available) -->
+          {flower.colors && flower.colors.length > 0 && (
+            <div style="margin-bottom: 1.75rem;">
+              <label style="display: block; font-size: 0.9rem; font-weight: 700; color: var(--forest-green); margin-bottom: 0.6rem;">
+                Select Flower Shade:
+              </label>
+              <div style="display: flex; gap: 0.75rem;">
+                {flower.colors.map((color, idx) => (
+                  <button
+                    class="color-option-btn js-color-btn"
+                    data-color={color}
+                    style={`padding: 0.5rem 1rem; border-radius: var(--radius-full); border: 2px solid ${idx === 0 ? 'var(--forest-green)' : 'var(--border-light)'}; background: ${idx === 0 ? 'var(--sage-light)' : 'var(--bg-card)'}; cursor: pointer; font-size: 0.85rem; font-weight: 600;`}
+                  >
+                    {color}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Quantity Modifier & Action Buttons -->
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 2rem;">
+            <div class="qty-control" style="padding: 0.2rem 0.4rem;">
+              <button class="qty-btn" id="detail-qty-minus">-</button>
+              <span class="qty-val" id="detail-qty-val" style="font-size: 1.1rem; padding: 0 0.8rem;">1</span>
+              <button class="qty-btn" id="detail-qty-plus">+</button>
+            </div>
+
+            <button
+              id="detail-add-cart-btn"
+              class="btn btn-primary"
+              style="flex: 1; min-width: 180px; padding: 0.95rem 1.75rem;"
+              data-flower={JSON.stringify(flower)}
+            >
+              🛒 Add to Cart
+            </button>
+
+            <button
+              id="detail-buy-now-btn"
+              class="btn btn-secondary"
+              style="padding: 0.95rem 1.75rem;"
+              data-flower={JSON.stringify(flower)}
+            >
+              ⚡ Buy Now
+            </button>
+          </div>
+
+          <!-- Feature Highlights Checklist -->
+          <div style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; font-size: 0.85rem; color: var(--forest-green); font-weight: 600;">
+            <div>🚚 Free Delivery Over $100</div>
+            <div>🌹 7-Day Freshness Guarantee</div>
+            <div>🎁 Handwritten Gift Card Included</div>
+            <div>🌱 Hydration Pack Secured</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Information Tabs & Accordion -->
+      <div style="margin-top: 4rem; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 2.5rem; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; gap: 2rem; border-bottom: 2px solid var(--border-light); margin-bottom: 2rem;">
+          <button class="tab-btn active" data-tab="care" style="font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: var(--forest-green); border: none; background: none; border-bottom: 3px solid var(--forest-green); padding-bottom: 0.75rem; cursor: pointer;">
+            Flower Care Instructions
+          </button>
+          <button class="tab-btn" data-tab="delivery" style="font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: var(--text-muted); border: none; background: none; padding-bottom: 0.75rem; cursor: pointer;">
+            Delivery & Packaging
+          </button>
+        </div>
+
+        <div id="tab-care" class="tab-content">
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.75rem; color: var(--forest-green);">
+            How to keep your blooms fresh for 10+ days:
+          </h3>
+          <p style="color: var(--text-muted); line-height: 1.7; font-size: 1rem;">
+            {flower.careInstructions || 'Unpack your flowers immediately upon arrival. Cut 1 inch off stems under lukewarm water at a 45-degree angle. Place in a clean vase filled with cold water and add the included flower food packet. Keep away from direct sunlight, air vents, and ripening fruit.'}
+          </p>
+        </div>
+
+        <div id="tab-delivery" class="tab-content" style="display: none;">
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.75rem; color: var(--forest-green);">
+            Hand-Delivered with Extreme Care:
+          </h3>
+          <p style="color: var(--text-muted); line-height: 1.7; font-size: 1rem;">
+            {flower.deliveryInformation || 'Orders placed before 2:00 PM are eligible for same-day climate-controlled floral delivery. Every bouquet is wrapped in eco-friendly hydration gel packs and signature Bloomify gift box.'}
+          </p>
+        </div>
+      </div>
+
+      <!-- Related Flowers Showcase -->
+      {relatedFlowers.length > 0 && (
+        <div style="margin-top: 5rem;">
+          <SectionTitle
+            subtitle="You Might Also Love"
+            title="Complementary Arrangements"
+            description="Explore more handcrafted arrangements from our floral design studio."
+          />
+          <ProductGrid flowers={relatedFlowers} />
+        </div>
+      )}
+    </div>
+  </section>
+
+  <div class="container" style="margin-bottom: 4rem;">
+    <Newsletter />
+  </div>
+</Layout>
+
+<script>
+  import { addToCart } from '../../lib/cart';
+
+  let selectedQty = 1;
+  let selectedColor = '';
+
+  // Handle color shade selection
+  const colorBtns = document.querySelectorAll('.js-color-btn');
+  if (colorBtns.length > 0) {
+    selectedColor = (colorBtns[0] as HTMLElement).getAttribute('data-color') || '';
+    colorBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        colorBtns.forEach((b) => {
+          (b as HTMLElement).style.borderColor = 'var(--border-light)';
+          (b as HTMLElement).style.background = 'var(--bg-card)';
+        });
+        (btn as HTMLElement).style.borderColor = 'var(--forest-green)';
+        (btn as HTMLElement).style.background = 'var(--sage-light)';
+        selectedColor = (btn as HTMLElement).getAttribute('data-color') || '';
+      });
+    });
+  }
+
+  // Handle quantity changes
+  const qtyVal = document.getElementById('detail-qty-val');
+  const qtyMinus = document.getElementById('detail-qty-minus');
+  const qtyPlus = document.getElementById('detail-qty-plus');
+
+  if (qtyMinus && qtyPlus && qtyVal) {
+    qtyMinus.addEventListener('click', () => {
+      if (selectedQty > 1) {
+        selectedQty--;
+        qtyVal.textContent = selectedQty.toString();
+      }
+    });
+
+    qtyPlus.addEventListener('click', () => {
+      selectedQty++;
+      qtyVal.textContent = selectedQty.toString();
+    });
+  }
+
+  // Add to Cart Action
+  const addCartBtn = document.getElementById('detail-add-cart-btn');
+  if (addCartBtn) {
+    addCartBtn.addEventListener('click', () => {
+      const raw = addCartBtn.getAttribute('data-flower');
+      if (raw) {
+        try {
+          const flower = JSON.parse(raw);
+          addToCart(flower, selectedQty, selectedColor || undefined);
+          addCartBtn.textContent = '✓ Added to Cart!';
+          addCartBtn.style.backgroundColor = '#2E7D32';
+          setTimeout(() => {
+            addCartBtn.textContent = '🛒 Add to Cart';
+            addCartBtn.style.backgroundColor = '';
+          }, 1500);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    });
+  }
+
+  // Buy Now Action
+  const buyNowBtn = document.getElementById('detail-buy-now-btn');
+  if (buyNowBtn) {
+    buyNowBtn.addEventListener('click', () => {
+      const raw = buyNowBtn.getAttribute('data-flower');
+      if (raw) {
+        try {
+          const flower = JSON.parse(raw);
+          addToCart(flower, selectedQty, selectedColor || undefined);
+          window.location.href = '/checkout';
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    });
+  }
+
+  // Tab switching
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabCare = document.getElementById('tab-care');
+  const tabDelivery = document.getElementById('tab-delivery');
+
+  tabBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach((b) => {
+        b.classList.remove('active');
+        (b as HTMLElement).style.color = 'var(--text-muted)';
+        (b as HTMLElement).style.borderBottom = 'none';
+      });
+
+      btn.classList.add('active');
+      (btn as HTMLElement).style.color = 'var(--forest-green)';
+      (btn as HTMLElement).style.borderBottom = '3px solid var(--forest-green)';
+
+      const tabTarget = (btn as HTMLElement).getAttribute('data-tab');
+      if (tabTarget === 'care' && tabCare && tabDelivery) {
+        tabCare.style.display = 'block';
+        tabDelivery.style.display = 'none';
+      } else if (tabTarget === 'delivery' && tabCare && tabDelivery) {
+        tabCare.style.display = 'none';
+        tabDelivery.style.display = 'block';
+      }
+    });
+  });
+</script>

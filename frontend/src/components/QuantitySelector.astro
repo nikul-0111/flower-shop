@@ -1,0 +1,38 @@
+---
+interface Props {
+  initialQuantity?: number;
+  min?: number;
+  max?: number;
+}
+
+const { initialQuantity = 1, min = 1, max = 99 } = Astro.props;
+---
+
+<div class="qty-control" style="padding: 0.2rem 0.4rem;">
+  <button type="button" class="qty-btn" id="qty-minus-btn" aria-label="Decrease quantity">-</button>
+  <span class="qty-val" id="qty-val-display" style="min-width: 32px; text-align: center;">{initialQuantity}</span>
+  <button type="button" class="qty-btn" id="qty-plus-btn" aria-label="Increase quantity">+</button>
+</div>
+
+<script>
+  let currentQty = 1;
+  const valDisplay = document.getElementById('qty-val-display');
+  const minusBtn = document.getElementById('qty-minus-btn');
+  const plusBtn = document.getElementById('qty-plus-btn');
+
+  if (valDisplay && minusBtn && plusBtn) {
+    minusBtn.addEventListener('click', () => {
+      if (currentQty > 1) {
+        currentQty--;
+        valDisplay.textContent = currentQty.toString();
+        valDisplay.dispatchEvent(new CustomEvent('qty-change', { detail: { quantity: currentQty } }));
+      }
+    });
+
+    plusBtn.addEventListener('click', () => {
+      currentQty++;
+      valDisplay.textContent = currentQty.toString();
+      valDisplay.dispatchEvent(new CustomEvent('qty-change', { detail: { quantity: currentQty } }));
+    });
+  }
+</script>

@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="404 - Page Not Found | Bloomify"
+  description="Oops! The flower arrangement or page you are looking for has wandered away."
+>
+  <section class="section-padding" style="min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+    <div class="container">
+      <div style="max-width: 560px; margin: 0 auto; background: var(--bg-card); border-radius: var(--radius-lg); padding: 3.5rem 2.5rem; border: 1px solid var(--border-light); box-shadow: var(--shadow-md);">
+        <div style="font-size: 4.5rem; margin-bottom: 1rem; animation: float 3s ease-in-out infinite;">
+          🥀
+        </div>
+
+        <h1 style="font-size: 2.5rem; font-family: var(--font-serif); color: var(--forest-green); margin-bottom: 1rem;">
+          Oops! Page Not Found
+        </h1>
+
+        <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.6;">
+          This flower seems to have wandered away or the link you followed might be broken. Let’s get you back to fresh blooms!
+        </p>
+
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="/" class="btn btn-primary">
+            Return Home 🌸
+          </a>
+          <a href="/shop" class="btn btn-outline">
+            Browse Flowers Catalog
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

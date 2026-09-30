@@ -1,0 +1,26 @@
+---
+interface Props {
+  subtitle?: string;
+  title: string;
+  description?: string;
+  centered?: boolean;
+}
+
+const { subtitle, title, description, centered = true } = Astro.props;
+---
+
+<div style={`margin-bottom: 3rem; text-align: ${centered ? 'center' : 'left'}; max-width: 650px; margin-left: ${centered ? 'auto' : '0'}; margin-right: ${centered ? 'auto' : '0'};`}>
+  {subtitle && (
+    <span class="badge badge-sage" style="margin-bottom: 0.75rem;">
+      🌸 {subtitle}
+    </span>
+  )}
+  <h2 style="font-size: 2.5rem; font-family: var(--font-serif); color: var(--forest-green); line-height: 1.2; margin-bottom: 0.75rem;">
+    {title}
+  </h2>
+  {description && (
+    <p style="font-size: 1.05rem; color: var(--text-muted); line-height: 1.6;">
+      {description}
+    </p>
+  )}
+</div>

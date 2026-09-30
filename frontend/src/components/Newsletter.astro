@@ -1,0 +1,43 @@
+---
+---
+
+<section style="background: linear-gradient(135deg, var(--forest-green) 0%, var(--deep-emerald) 100%); color: var(--text-white); padding: 5rem 0; border-radius: var(--radius-lg); margin: 4rem 0; position: relative; overflow: hidden;">
+  <div class="container" style="position: relative; z-index: 2; text-align: center; max-width: 680px;">
+    <span class="badge badge-rose" style="margin-bottom: 1rem; background-color: rgba(232, 165, 152, 0.25); color: #FFC0B5;">
+      💌 Join The Bloom Club
+    </span>
+    <h2 style="color: var(--text-white); font-size: 2.75rem; margin-bottom: 1rem;">
+      Get 15% off your first arrangement
+    </h2>
+    <p style="font-size: 1.05rem; opacity: 0.9; margin-bottom: 2.25rem; line-height: 1.6;">
+      Subscribe to receive exclusive seasonal flower care tips, early access to limited edition blooms, and secret discount vouchers.
+    </p>
+
+    <form id="newsletter-form" style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; max-width: 520px; margin: 0 auto;">
+      <input
+        type="email"
+        placeholder="Enter your email address..."
+        required
+        style="flex: 1; min-width: 260px; padding: 0.9rem 1.25rem; border-radius: var(--radius-full); border: none; font-size: 0.95rem; outline: none;"
+      />
+      <button type="submit" class="btn btn-secondary">
+        Subscribe Now
+      </button>
+    </form>
+
+    <p id="newsletter-msg" style="margin-top: 1rem; font-size: 0.9rem; color: #8BE4B0; display: none;"></p>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('newsletter-form') as HTMLFormElement;
+  const msg = document.getElementById('newsletter-msg');
+  if (form && msg) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      msg.style.display = 'block';
+      msg.textContent = '🎉 Thank you for joining! Use code BLOOM15 at checkout.';
+      form.reset();
+    });
+  }
+</script>

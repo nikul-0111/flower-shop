@@ -1,0 +1,18 @@
+---
+interface Props {
+  name: string;
+  slug: string;
+  image: string;
+  itemCount: number;
+}
+
+const { name, slug, image, itemCount } = Astro.props;
+---
+
+  <a href={`/categories/${slug}`} class="category-card">
+  <img src={image} alt={name} loading="lazy" />
+  <div class="category-overlay">
+    <h3>{name}</h3>
+    <p>{itemCount}+ Fresh Arrangements</p>
+  </div>
+</a>

@@ -1,0 +1,90 @@
+---
+interface Props {}
+---
+
+<header class="header-wrapper">
+  <!-- Top Announcement Bar -->
+  <div class="top-announcement-bar">
+    🌸 Fresh Flowers Delivered Daily! Free Delivery on orders over <span>$100</span> | Use code <span>BLOOM15</span> for 15% off
+  </div>
+
+  <div class="container header-container">
+    <!-- Brand Logo -->
+    <a href="/" class="brand-logo" id="brand-logo-link">
+      <svg class="brand-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a5 5 0 0 0-5 5c0 2 1.5 3.5 3 5-2.5 0-4 1.5-4 4 0 3 2.5 5 6 5s6-2 6-5c0-2.5-1.5-4-4-4 1.5-1.5 3-3 3-5a5 5 0 0 0-5-5z"></path>
+        <circle cx="12" cy="12" r="2"></circle>
+      </svg>
+      Bloomify
+    </a>
+
+    <!-- Navigation Menu -->
+    <nav>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/shop" class="nav-link">Shop All</a></li>
+        <li><a href="/categories/bouquets" class="nav-link">Bouquets</a></li>
+        <li><a href="/categories/roses" class="nav-link">Roses</a></li>
+        <li><a href="/categories/plants" class="nav-link">Plants</a></li>
+        <li><a href="/about" class="nav-link">Our Story</a></li>
+        <li><a href="/contact" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Actions (Search & Cart) -->
+    <div class="header-actions">
+      <a href="/shop" class="action-btn" title="Search Flowers" id="search-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </a>
+
+      <a href="/cart" class="action-btn" title="Shopping Cart" id="header-cart-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="cart-badge" id="cart-badge-count">0</span>
+      </a>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  import { getCartCount } from '../lib/cart';
+
+  function updateCartBadge() {
+    const badge = document.getElementById('cart-badge-count');
+    if (badge) {
+      badge.textContent = getCartCount().toString();
+    }
+  }
+
+  // Initial setup
+  updateCartBadge();
+
+  // Listen for custom cart event
+  window.addEventListener('cart-updated', () => {
+    updateCartBadge();
+  });
+
+  // Mobile navigation toggle
+  const mobileBtn = document.getElementById('mobile-toggle');
+  const navMenu = document.getElementById('nav-menu');
+  if (mobileBtn && navMenu) {
+    mobileBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+    });
+  }
+</script>

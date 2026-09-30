@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import Newsletter from '../components/Newsletter.astro';
+---
+
+<Layout
+  title="Our Story & Floral Passion | Bloomify"
+  description="Discover the story behind Bloomify, our commitment to eco-friendly flower farming, master florists, and sustainable blooming."
+>
+  <!-- About Hero -->
+  <section style="background: linear-gradient(135deg, #1B3B2B 0%, #2D5A42 100%); color: #FFF; padding: 5rem 0 4.5rem 0;">
+    <div class="container" style="text-align: center;">
+      <span class="badge" style="background: rgba(232, 165, 152, 0.25); color: #FFC0B5; margin-bottom: 1rem;">
+        🌸 Crafting Floral Magic Since 2018
+      </span>
+      <h1 style="font-size: 3.25rem; color: #FFF; font-family: var(--font-serif); margin-bottom: 1.25rem; line-height: 1.2;">
+        Bringing Nature’s Most Exquisite Poetry to Your Doorstep
+      </h1>
+      <p style="font-size: 1.2rem; color: rgba(255,255,255,0.9); max-width: 720px; margin: 0 auto;">
+        At Bloomify, we believe that flowers are more than just gifts—they are emotional connections, celebrations of life, and artistic expressions.
+      </p>
+    </div>
+  </section>
+
+  <!-- Story & Vision Grid -->
+  <section class="section-padding">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3.5rem; align-items: center;">
+        <div>
+          <span class="badge badge-sage" style="margin-bottom: 0.75rem;">Our Roots</span>
+          <h2 style="font-size: 2.25rem; color: var(--forest-green); font-family: var(--font-serif); margin-bottom: 1rem;">
+            From Local Botanical Farm to Artisanal Floral Studio
+          </h2>
+          <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.25rem;">
+            Founded with a vision to eliminate the lengthy, multi-step supply chain of traditional florists, Bloomify connects flower lovers directly with sustainable, eco-friendly farms across Ecuador, Holland, and local botanical nurseries.
+          </p>
+          <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem;">
+            Every single stem is harvested at peak bloom, hand-selected by master florists, and hydrated using organic nutrient formulas so your arrangements last up to 12 days in your home.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+            <div>
+              <div style="font-size: 2rem; font-weight: 800; color: var(--forest-green); font-family: var(--font-serif);">500k+</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Bouquets Delivered</div>
+            </div>
+            <div>
+              <div style="font-size: 2rem; font-weight: 800; color: var(--forest-green); font-family: var(--font-serif);">100%</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Farm Fresh Sourced</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="position: relative;">
+          <img
+            src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=80"
+            alt="Master Florist Arranging Flowers"
+            style="border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); width: 100%; height: 440px; object-fit: cover;"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Pillars -->
+  <section class="section-padding" style="background-color: var(--bg-secondary);">
+    <div class="container">
+      <SectionTitle
+        subtitle="Our Core Values"
+        title="What Sets Bloomify Apart"
+        description="We are committed to ethical floral sourcing, eco-conscious packaging, and uncompromised quality."
+      />
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2.5rem;">
+        <div style="background: var(--bg-card); padding: 2.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🌱</div>
+          <h3 style="font-size: 1.25rem; color: var(--forest-green); margin-bottom: 0.5rem;">100% Sustainable Farms</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">We partner exclusively with Rainforest Alliance certified floral growers who prioritize fair wages and zero harsh pesticides.</p>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 2.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">📦</div>
+          <h3 style="font-size: 1.25rem; color: var(--forest-green); margin-bottom: 0.5rem;">Zero Single-Use Plastic</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">All packaging materials—from our kraft paper wraps to our ribbon ties and hydration pouches—are 100% biodegradable.</p>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 2.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">✨</div>
+          <h3 style="font-size: 1.25rem; color: var(--forest-green); margin-bottom: 0.5rem;">7-Day Fresh Guarantee</h3>
+          <p style="font-size: 0.95rem; color: var(--text-muted);">If your blooms wilt before 7 full days, contact our support team and we will send a fresh replacement bouquet free of charge.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call To Action -->
+  <section style="margin: 4rem 0;">
+    <div class="container">
+      <div style="background: var(--forest-green); color: #FFF; border-radius: var(--radius-lg); padding: 4rem 2rem; text-align: center; box-shadow: var(--shadow-lg);">
+        <h2 style="font-size: 2.5rem; color: #FFF; font-family: var(--font-serif); margin-bottom: 1rem;">
+          Ready to Brighten Someone’s Day?
+        </h2>
+        <p style="font-size: 1.1rem; opacity: 0.9; max-width: 580px; margin: 0 auto 2rem auto;">
+          Explore our seasonal bouquets, luxury Ecuador roses, and long-lasting house plants with fast delivery.
+        </p>
+        <a href="/shop" class="btn btn-secondary" style="padding: 1rem 2.25rem; font-size: 1.05rem;">
+          Shop Collection Now →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container" style="margin-bottom: 4rem;">
+    <Newsletter />
+  </div>
+</Layout>

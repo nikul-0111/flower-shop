@@ -1,0 +1,78 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SectionTitle from '../../components/SectionTitle.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+import Newsletter from '../../components/Newsletter.astro';
+
+import { getFlowersByCategory } from '../../lib/queries';
+
+export async function getStaticPaths() {
+  const categories = [
+    { slug: 'bouquets', title: 'Fresh Bouquets', desc: 'Hand-tied vibrant floral arrangements for every mood' },
+    { slug: 'roses', title: 'Ecuador Roses', desc: 'Classic velvety long-stemmed luxury roses' },
+    { slug: 'wedding', title: 'Wedding & Bridal', desc: 'Pure white lilies, gardenias, and elegant orchids' },
+    { slug: 'birthday', title: 'Birthday Blooms', desc: 'Cheerful sunflowers, bright spray roses, and carnations' },
+    { slug: 'anniversary', title: 'Anniversary Specials', desc: 'Romantic blush pink tulips and delicate peonies' },
+    { slug: 'plants', title: 'Lush Houseplants', desc: 'Air-purifying monsteras and long-lasting potted orchids' },
+  ];
+
+  return categories.map((cat) => ({
+    params: { category: cat.slug },
+    props: { categoryMeta: cat },
+  }));
+}
+
+const { category } = Astro.params;
+const { categoryMeta } = Astro.props;
+
+const flowers = await getFlowersByCategory(category as string);
+---
+
+<Layout
+  title={`${categoryMeta.title} Collection | Bloomify`}
+  description={categoryMeta.desc}
+>
+  <!-- Category Header Banner -->
+  <section style="background: linear-gradient(135deg, #1B3B2B 0%, #2D5A42 100%); color: #FFF; padding: 4rem 0 3.5rem 0;">
+    <div class="container" style="text-align: center;">
+      <!-- Breadcrumb -->
+      <nav style="font-size: 0.85rem; color: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <a href="/" style="color: rgba(255,255,255,0.8);">Home</a>
+        <span>/</span>
+        <a href="/shop" style="color: rgba(255,255,255,0.8);">Shop</a>
+        <span>/</span>
+        <span style="color: #FFF; font-weight: 600; text-transform: capitalize;">{categoryMeta.title}</span>
+      </nav>
+
+      <h1 style="font-size: 3rem; color: #FFF; font-family: var(--font-serif); margin-bottom: 0.75rem;">
+        {categoryMeta.title}
+      </h1>
+      <p style="font-size: 1.15rem; color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto 1.5rem auto;">
+        {categoryMeta.desc}
+      </p>
+      <span class="badge" style="background: rgba(255,255,255,0.2); color: #FFF; padding: 0.4rem 1rem;">
+        {flowers.length} {flowers.length === 1 ? 'Arrangement' : 'Arrangements'} Available
+      </span>
+    </div>
+  </section>
+
+  <!-- Product Showcase Grid -->
+  <section class="section-padding">
+    <div class="container">
+      {flowers.length > 0 ? (
+        <ProductGrid flowers={flowers} />
+      ) : (
+        <div style="text-align: center; padding: 4rem 2rem; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🌷</div>
+          <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--forest-green);">No items in this category yet</h3>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Explore our full shop collection to discover available floral creations.</p>
+          <a href="/shop" class="btn btn-primary">Browse All Flowers</a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <div class="container" style="margin-bottom: 4rem;">
+    <Newsletter />
+  </div>
+</Layout>
