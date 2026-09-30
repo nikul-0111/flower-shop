@@ -8,67 +8,17 @@ import Newsletter from '../components/Newsletter.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import Schema from '../components/Schema.astro';
 
-import { getFeaturedFlowers, getBestSellerFlowers, getCategoryHeaderData } from '../lib/queries';
+import { getFeaturedFlowers, getBestSellerFlowers, getCategoryHeaderData, getAllCategories } from '../lib/queries';
 import type { Category, Testimonial } from '../types/flower';
 
 const featuredFlowers = await getFeaturedFlowers();
 const bestSellers = await getBestSellerFlowers();
 const categoryHeader = await getCategoryHeaderData();
+const categories = await getAllCategories();
 
 const catSubtitle = categoryHeader?.subtitle || "Curated Collections";
 const catTitle = categoryHeader?.title || "Shop by Occasion & Floral Style";
 const catDescription = categoryHeader?.description || "Find the ideal floral expression for birthdays, anniversaries, weddings, or everyday moments of elegance.";
-
-const categories: Category[] = [
-  {
-    id: 'cat-1',
-    name: 'Fresh Bouquets',
-    slug: 'bouquets',
-    description: 'Hand-tied vibrant floral arrangements',
-    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80&fm=webp',
-    itemCount: 24,
-  },
-  {
-    id: 'cat-2',
-    name: 'Ecuador Roses',
-    slug: 'roses',
-    description: 'Classic velvety long-stemmed roses',
-    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=600&q=80&fm=webp',
-    itemCount: 18,
-  },
-  {
-    id: 'cat-3',
-    name: 'Wedding & Bridal',
-    slug: 'wedding',
-    description: 'Purity white lilies and orchids',
-    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=600&q=80&fm=webp',
-    itemCount: 15,
-  },
-  {
-    id: 'cat-4',
-    name: 'Birthday Blooms',
-    slug: 'birthday',
-    description: 'Cheerful bright sunflowers & spray roses',
-    image: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=600&q=80&fm=webp',
-    itemCount: 20,
-  },
-  {
-    id: 'cat-5',
-    name: 'Anniversary Specials',
-    slug: 'anniversary',
-    description: 'Blush pink tulips & peony mixes',
-    image: 'https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=600&q=80&fm=webp',
-    itemCount: 12,
-  },
-  {
-    id: 'cat-6',
-    name: 'Lush Houseplants',
-    slug: 'plants',
-    description: 'Air-purifying monsteras & potted orchids',
-    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=600&q=80&fm=webp',
-    itemCount: 16,
-  },
-];
 
 const testimonials: Testimonial[] = [
   {

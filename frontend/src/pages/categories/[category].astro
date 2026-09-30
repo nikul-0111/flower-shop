@@ -4,21 +4,20 @@ import SectionTitle from '../../components/SectionTitle.astro';
 import ProductGrid from '../../components/ProductGrid.astro';
 import Newsletter from '../../components/Newsletter.astro';
 
-import { getFlowersByCategory } from '../../lib/queries';
+import { getFlowersByCategory, getAllCategories, DEFAULT_CATEGORIES } from '../../lib/queries';
 
 export async function getStaticPaths() {
-  const categories = [
-    { slug: 'bouquets', title: 'Fresh Bouquets', desc: 'Hand-tied vibrant floral arrangements for every mood' },
-    { slug: 'roses', title: 'Ecuador Roses', desc: 'Classic velvety long-stemmed luxury roses' },
-    { slug: 'wedding', title: 'Wedding & Bridal', desc: 'Pure white lilies, gardenias, and elegant orchids' },
-    { slug: 'birthday', title: 'Birthday Blooms', desc: 'Cheerful sunflowers, bright spray roses, and carnations' },
-    { slug: 'anniversary', title: 'Anniversary Specials', desc: 'Romantic blush pink tulips and delicate peonies' },
-    { slug: 'plants', title: 'Lush Houseplants', desc: 'Air-purifying monsteras and long-lasting potted orchids' },
-  ];
+  const sanityCategories = await getAllCategories();
+  const allCats = sanityCategories.length > 0 ? sanityCategories : DEFAULT_CATEGORIES;
 
-  return categories.map((cat) => ({
+  return allCats.map((cat) => ({
     params: { category: cat.slug },
-    props: { categoryMeta: cat },
+    props: {
+      categoryMeta: {
+        title: cat.name,
+        desc: cat.description || `Hand-crafted ${cat.name} floral arrangements`,
+      }
+    },
   }));
 }
 
