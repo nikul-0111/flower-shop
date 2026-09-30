@@ -17,9 +17,9 @@ const builder = createImageUrlBuilder(sanityClient);
 
 export function urlFor(source: any) {
   if (!source || !source.asset) {
-    return 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80';
+    return 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=600&q=80&fm=webp';
   }
-  return builder.image(source).url();
+  return builder.image(source).auto('format').fit('max').width(600).url();
 }
 
 export const MOCK_FLOWERS: Flower[] = [
@@ -28,7 +28,7 @@ export const MOCK_FLOWERS: Flower[] = [
     name: 'Velvet Romance Rose Bouquet',
     slug: { current: 'velvet-romance-rose-bouquet' },
     description: 'A breathtaking arrangement of 24 premium deep red Ecuador roses intertwined with silver dollar eucalyptus and baby’s breath. Perfect for expressing passionate love and unforgettable anniversaries.',
-    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=600&q=80&fm=webp',
     price: 89.99,
     oldPrice: 109.99,
     category: 'roses',
@@ -48,7 +48,7 @@ export const MOCK_FLOWERS: Flower[] = [
     name: 'Pastel Meadow Peony Dream',
     slug: { current: 'pastel-meadow-peony-dream' },
     description: 'An enchanting mix of blush pink peonies, soft lavender hydrangeas, white ranunculus, and delicate astilbe wrapped in natural eco kraft paper.',
-    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80&fm=webp',
     price: 78.50,
     oldPrice: 92.00,
     category: 'bouquets',
@@ -68,7 +68,7 @@ export const MOCK_FLOWERS: Flower[] = [
     name: 'Golden Sunburst Sunflower Arrangement',
     slug: { current: 'golden-sunburst-sunflower-arrangement' },
     description: 'Brighten anyone’s day with radiant golden sunflowers, yellow spray roses, solidago, and fresh hypericum berries in a rustic burlap tied arrangement.',
-    image: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=600&q=80&fm=webp',
     price: 54.99,
     oldPrice: 65.00,
     category: 'birthday',
@@ -88,7 +88,7 @@ export const MOCK_FLOWERS: Flower[] = [
     name: 'Royal Orchid Elegance Bowl',
     slug: { current: 'royal-orchid-elegance-bowl' },
     description: 'Exquisite double-stemmed Phalaenopsis white orchid planted in a sleek ceramic matte bowl with decorative river stones and moss finish.',
-    image: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=600&q=80&fm=webp',
     price: 110.00,
     oldPrice: 130.00,
     category: 'plants',
@@ -108,7 +108,7 @@ export const MOCK_FLOWERS: Flower[] = [
     name: 'Whispering Lilies & White Roses',
     slug: { current: 'whispering-lilies-white-roses' },
     description: 'Graceful Casablanca white lilies combined with Avalanche white roses and plumosus fern, symbolising purity, peace, and eternal elegance.',
-    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=600&q=80&fm=webp',
     price: 95.00,
     oldPrice: 115.00,
     category: 'wedding',
@@ -128,7 +128,7 @@ export const MOCK_FLOWERS: Flower[] = [
     name: 'Sweet Anniversary Blush Tulips',
     slug: { current: 'sweet-anniversary-blush-tulips' },
     description: 'Fresh crisp Dutch tulips in soft blush pink, peach, and coral hues. Carefully hand-wrapped with silk satin ribbon.',
-    image: 'https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=600&q=80&fm=webp',
     price: 68.00,
     oldPrice: 79.99,
     category: 'anniversary',
@@ -148,7 +148,7 @@ export const MOCK_FLOWERS: Flower[] = [
     name: 'Rustic Wildflower Sunset',
     slug: { current: 'rustic-wildflower-sunset' },
     description: 'An organic, boho-chic arrangement featuring dried pampas grass, terracotta spray carnations, eryngium thistles, and dusty miller.',
-    image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=600&q=80&fm=webp',
     price: 72.00,
     oldPrice: 85.00,
     category: 'bouquets',
@@ -168,7 +168,7 @@ export const MOCK_FLOWERS: Flower[] = [
     name: 'Monstera Deliciosa Botanica Plant',
     slug: { current: 'monstera-deliciosa-botanica-plant' },
     description: 'Lush tropical Swiss Cheese Plant potted in a premium terracotta container. Air-purifying and perfect for modern home interiors.',
-    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=600&q=80&fm=webp',
     price: 49.99,
     oldPrice: 59.99,
     category: 'plants',

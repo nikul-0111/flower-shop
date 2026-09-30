@@ -27,6 +27,8 @@
   color: var(--forest-green);
   margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
+  opacity: 1;
+  transform: none;
 }
 
 .hero-title span {
@@ -46,6 +48,7 @@
   align-items: center;
   gap: 1.25rem;
   flex-wrap: wrap;
+  min-height: 52px;
 }
 
 .hero-features-strip {

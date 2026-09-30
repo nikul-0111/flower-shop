@@ -10,7 +10,7 @@ const { name, slug, image, itemCount } = Astro.props;
 ---
 
   <a href={`/categories/${slug}`} class="category-card">
-  <img src={image} alt={name} loading="lazy" />
+  <img src={image} alt={name} width="600" height="400" loading="lazy" decoding="async" />
   <div class="category-overlay">
     <h3>{name}</h3>
     <p>{itemCount}+ Fresh Arrangements</p>

@@ -16,7 +16,7 @@ const discountPercent = flower.oldPrice
 <div class="product-card" data-flower-id={flower._id}>
   <div class="product-image-wrap">
     <a href={`/products/${slugStr}`}>
-      <img src={flower.image} alt={flower.name} loading="lazy" />
+      <img src={flower.image} alt={flower.name} width="400" height="500" loading="lazy" decoding="async" />
     </a>
 
     {discountPercent && (

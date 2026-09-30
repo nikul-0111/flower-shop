@@ -25,7 +25,7 @@ const categories: Category[] = [
     name: 'Fresh Bouquets',
     slug: 'bouquets',
     description: 'Hand-tied vibrant floral arrangements',
-    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80&fm=webp',
     itemCount: 24,
   },
   {
@@ -33,7 +33,7 @@ const categories: Category[] = [
     name: 'Ecuador Roses',
     slug: 'roses',
     description: 'Classic velvety long-stemmed roses',
-    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=600&q=80&fm=webp',
     itemCount: 18,
   },
   {
@@ -41,7 +41,7 @@ const categories: Category[] = [
     name: 'Wedding & Bridal',
     slug: 'wedding',
     description: 'Purity white lilies and orchids',
-    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=600&q=80&fm=webp',
     itemCount: 15,
   },
   {
@@ -49,7 +49,7 @@ const categories: Category[] = [
     name: 'Birthday Blooms',
     slug: 'birthday',
     description: 'Cheerful bright sunflowers & spray roses',
-    image: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=600&q=80&fm=webp',
     itemCount: 20,
   },
   {
@@ -57,7 +57,7 @@ const categories: Category[] = [
     name: 'Anniversary Specials',
     slug: 'anniversary',
     description: 'Blush pink tulips & peony mixes',
-    image: 'https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=600&q=80&fm=webp',
     itemCount: 12,
   },
   {
@@ -65,7 +65,7 @@ const categories: Category[] = [
     name: 'Lush Houseplants',
     slug: 'plants',
     description: 'Air-purifying monsteras & potted orchids',
-    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=600&q=80&fm=webp',
     itemCount: 16,
   },
 ];
@@ -75,7 +75,7 @@ const testimonials: Testimonial[] = [
     id: 'test-1',
     name: 'Elena Rostova',
     role: 'Verified Buyer',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=96&q=80&fm=webp',
     comment: 'The Velvet Romance Rose bouquet arrived in absolute perfection for our anniversary! The roses stayed vibrant for well over 10 days.',
     rating: 5,
     date: '3 days ago',
@@ -84,7 +84,7 @@ const testimonials: Testimonial[] = [
     id: 'test-2',
     name: 'Marcus Vance',
     role: 'Loyal Customer',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=96&q=80&fm=webp',
     comment: 'Same-day delivery saved my wife’s birthday surprise! The hand-tied kraft packaging and handwritten note were so thoughtful.',
     rating: 5,
     date: '1 week ago',
@@ -93,7 +93,7 @@ const testimonials: Testimonial[] = [
     id: 'test-3',
     name: 'Sarah Jenkins',
     role: 'Event Designer',
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=96&q=80&fm=webp',
     comment: 'Bloomify is my go-to floral shop for event decorations. Their orchids and peonies are always top tier grade.',
     rating: 5,
     date: '2 weeks ago',
@@ -104,7 +104,7 @@ const homeSchema = {
   "@context": "https://schema.org",
   "@type": "Florist",
   "name": "Bloomify Flower Shop",
-  "image": "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=80",
+  "image": "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80&fm=webp",
   "url": "https://bloomify-flowers.com",
   "telephone": "+1-800-555-0199",
   "priceRange": "$$",
@@ -192,8 +192,12 @@ const homeSchema = {
         </div>
         <div style="position: relative;">
           <img
-            src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=700&q=80"
+            src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80&fm=webp"
             alt="Pastel Peonies"
+            width="600"
+            height="320"
+            loading="lazy"
+            decoding="async"
             style="border-radius: var(--radius-md); box-shadow: var(--shadow-lg); width: 100%; height: 320px; object-fit: cover;"
           />
         </div>

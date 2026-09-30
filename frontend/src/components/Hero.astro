@@ -8,7 +8,7 @@ const titleText = heroData?.heading || "Crafting unforgettable floral memories f
 const descriptionText = heroData?.subheading || "Elevate life’s special moments with handpicked, eco-friendly flowers sourced directly from sustainable gardens. Guaranteed 7-day freshness.";
 const ctaText = heroData?.ctaText || "Explore Collection";
 const ctaLink = heroData?.ctaLink || "/shop";
-const heroImg = heroData?.imageUrl || "https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=1000&q=80";
+const heroImg = heroData?.imageUrl || "https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80&fm=webp";
 ---
 
 <section class="hero-section">
@@ -71,17 +71,22 @@ const heroImg = heroData?.imageUrl || "https://images.unsplash.com/photo-1561181
           src={heroImg}
           alt="Fresh Flower Arrangement"
           width="800"
-          height="600"
+          height="520"
           loading="eager"
+          fetchpriority="high"
+          decoding="async"
         />
       </div>
 
       <!-- Floating Review Badge -->
       <div class="hero-float-card floating">
         <img
-          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=96&q=80&fm=webp"
           alt="Customer Avatar"
           class="hero-float-avatar"
+          width="48"
+          height="48"
+          loading="eager"
         />
         <div class="hero-float-text">
           <div style="color: #F4A261; font-size: 0.8rem; margin-bottom: 0.2rem;">★★★★★</div>
