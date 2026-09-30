@@ -3,25 +3,11 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(250, 247, 242, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(230, 223, 213, 0.8);
-  transition: all var(--transition-normal);
-}
-
-.top-announcement-bar {
   background-color: var(--forest-green);
-  color: var(--text-white);
-  text-align: center;
-  padding: 0.45rem 1rem;
-  font-size: 0.825rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-}
-
-.top-announcement-bar span {
-  color: var(--blush-pink);
-  font-weight: 700;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
 }
 
 .header-container {
@@ -39,14 +25,14 @@
   font-family: var(--font-serif);
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--forest-green);
+  color: var(--text-white);
   letter-spacing: -0.02em;
 }
 
 .brand-logo-icon {
   width: 34px;
   height: 34px;
-  color: var(--rose-gold);
+  color: var(--blush-pink);
 }
 
 /* Nav Links */
@@ -60,7 +46,7 @@
 .nav-link {
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--text-dark);
+  color: rgba(255, 255, 255, 0.9);
   position: relative;
   padding: 0.4rem 0;
 }
@@ -72,7 +58,7 @@
   left: 0;
   width: 0%;
   height: 2px;
-  background-color: var(--sage-accent);
+  background-color: var(--blush-pink);
   transition: width var(--transition-fast);
   border-radius: 2px;
 }
@@ -84,7 +70,7 @@
 
 .nav-link:hover,
 .nav-link.active {
-  color: var(--forest-green);
+  color: var(--text-white);
 }
 
 /* Header Actions */
@@ -99,7 +85,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--forest-green);
+  color: var(--text-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,7 +96,7 @@
 }
 
 .action-btn:hover {
-  background-color: rgba(74, 124, 89, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .action-btn svg {
@@ -139,6 +125,6 @@
   display: none;
   background: none;
   border: none;
-  color: var(--forest-green);
+  color: var(--text-white);
   cursor: pointer;
 }
