@@ -2,6 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import Newsletter from '../components/Newsletter.astro';
+import { getAboutData } from '../lib/queries';
+
+const aboutData = await getAboutData();
+
+const titleText = aboutData?.title || "Bringing Nature’s Most Exquisite Poetry to Your Doorstep";
+const subtitleText = aboutData?.subtitle || "At Bloomify, we believe that flowers are more than just gifts—they are emotional connections, celebrations of life, and artistic expressions.";
+const heroImg = aboutData?.imageUrl || "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=700&q=80&fm=webp";
 ---
 
 <Layout
@@ -15,10 +22,10 @@ import Newsletter from '../components/Newsletter.astro';
         🌸 Crafting Floral Magic Since 2018
       </span>
       <h1 style="font-size: 3.25rem; color: #FFF; font-family: var(--font-serif); margin-bottom: 1.25rem; line-height: 1.2;">
-        Bringing Nature’s Most Exquisite Poetry to Your Doorstep
+        {titleText}
       </h1>
       <p style="font-size: 1.2rem; color: rgba(255,255,255,0.9); max-width: 720px; margin: 0 auto;">
-        At Bloomify, we believe that flowers are more than just gifts—they are emotional connections, celebrations of life, and artistic expressions.
+        {subtitleText}
       </p>
     </div>
   </section>
